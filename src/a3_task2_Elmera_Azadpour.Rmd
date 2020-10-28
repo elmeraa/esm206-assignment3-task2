@@ -57,7 +57,11 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 
 ```{r}
 # Your code here: 
-
+sw_split_name <- starwars %>% # Start with starwars
+  separate(col = name, #
+           into = c("name_1","name_2"), # 
+           sep = "-" # 
+  )
 
 ```
 
@@ -91,7 +95,12 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 
 ```{r}
 # Your code here:
-
+sw_skin_sep <- starwars %>% # Start from starwars data
+  separate(col = skin_color, #
+           into = c("skin_1","skin_2"), # 
+           sep = ",", # 
+           extra = "merge", #
+           remove = FALSE)
 
 ```
 
@@ -127,7 +136,11 @@ In the code chunk below, starting from the `mpg` data create a new data frame ca
 
 ```{r}
 # Your code here: 
-
+mpg_model_class <- mpg %>% #
+  unite(col = model_class, # 
+        c(model, class), # 
+        sep = "-" # 
+        ) 
 
 ```
 
@@ -157,7 +170,11 @@ In the code chunk below, use `ymd()` to convert a date that you choose in `YYYY-
 
 ```{r}
 # Your code here: 
+ymd(20201201)
 
+ymd("2020-12-01")
+
+ymd("2020/12/01")
 
 ```
 
@@ -182,6 +199,12 @@ In the code chunk below, create a vector (using `c()`, as above) stored as `some
 
 ```{r}
 # Your code here: 
+
+some_dates <- c(11061972, 02142007,01301843) # Creates a vector of dates w/o spaces
+some_dates_converted <- mdy(some_dates) # Converts to Date, stores as my_dates_converted
+some_dates_converted # Return my_dates_converted
+
+class(some_dates_converted) # Check the class
 
 
 ```
@@ -226,7 +249,14 @@ Starting from the `lakers` dataset, create a new dataset called `gasol_hookshots
 
 ```{r}
 # Your code here: 
-
+gasol_hookshots <-lakers %>% 
+  filter(player %in% c("Pau Gasol"), type %in% c("hook")) %>% 
+  mutate(Date = ymd(date)) %>% 
+  mutate(Month = month(Date))
+  
+hookshot_by_month <- gasol_hookshots %>% 
+  group_by(Month) %>% 
+  summarize(count = n())
 
 ```
 
@@ -276,7 +306,10 @@ Note: If you add another condition within `case_when()` that is `TRUE ~ "some th
 
 ```{r}
 # Your code here: 
-
+storm_danger <- storms %>% 
+  mutate(danger = case_when( # Add a new column season, which contains... 
+    status == c("hurricane") ~ "high", 
+    TRUE ~ "moderate"))
 
 ```
 
